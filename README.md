@@ -174,7 +174,7 @@ class TestMe extends Something{
 ```
 The mistake would be to
 ```js
-const testMe = new TestMe({/..A lot of config../});
+const testMe = new TestMe({/*..A lot of config..*/});
 testMe.method('ping');
 expect(testMe.pong).to.equal('pong');
 ```
