@@ -418,6 +418,12 @@ describe('MockedClassFactory' , ()=>{
                 mockedClassFactory.spies
             );
         });
+        it('Should making sure props will not be added undefined' , ()=>{
+            mockedClassFactory.props.concat = chai.spy();
+            mockedClassFactory.test(1);
+
+            expect(mockedClassFactory.props.concat).to.not.be.called.with(undefined);
+        });
     });
     describe('#spies' , ()=>{
         let MockedClassFactorySpy;

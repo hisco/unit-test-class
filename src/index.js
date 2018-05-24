@@ -78,7 +78,7 @@ class MockedClassFactory{
         }
     }
     test(what){        
-        return new (this.MockedClassFactory)(this.spyFactory , this.target , this.props.concat(what) , this.spies);
+        return new (this.MockedClassFactory)(this.spyFactory , this.target , this.props.concat(what || []) , this.spies);
     }
     spies(spies){
         const spiesMerged = {};
@@ -176,9 +176,9 @@ class MockedClassFactory{
         const out = {};
         this.Object.keys(obj).forEach((key)=>{
             const forMerge = this.Object.assign({},obj[key]);
-            if (forMerge.hasOwnProperty('get'))
+            if (forMerge.hasOwnProperty('get') && forMerge['get'])
                 this._setSpyOn(forMerge , key , 'get', forMerge['get'] )
-            if (forMerge.hasOwnProperty('set'))
+            if (forMerge.hasOwnProperty('set') && forMerge['set'])
                 this._setSpyOn(forMerge , key , 'set', forMerge['set'] )
             if (forMerge.hasOwnProperty('value')){
                 const value = forMerge['value'];

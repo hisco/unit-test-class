@@ -17,6 +17,9 @@ class TestMe{
         if (ping == 'ping')
             this.pong = 'pong';
     }
+    get getter(){
+        return true;
+    }
 }
 
 
@@ -50,6 +53,21 @@ describe('common tests' , ()=>{
             expect(testMe.somethingVeryRelatedToOptions).to.have.not.been.called();
         })  
     });
+    describe('#getter' , ()=>{
+        let mockView
+        beforeEach(()=>{
+            mockView = mockFactory.test('getter').create({});
+            testMe = mockView.instance;
+        });
+        it('should call getter' , ()=>{
+            mockView = mockFactory.test().create({})
+            mockView.instance.getter;
+            expect(mockView.spies.getter_get).to.have.been.called();
+        });
+        it('should get value' , ()=>{
+           expect(mockView.instance.getter).eq(true);
+        });
+    })
 })
 describe('super constructor' , ()=>{
     class Parent{
