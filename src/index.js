@@ -78,15 +78,17 @@ class MockedClassFactory{
         }
     }
     test(what){        
-        return new (this.MockedClassFactory)(this.spyFactory , this.target , this.props.concat(what || []) , this.spies);
+        return new (this.MockedClassFactory)(this.spyFactory , this.target , this.props.concat(what || []) , this._spies);
     }
     spies(spies){
-        const spiesMerged = {};
-        for (let key in this._spies)
-            spiesMerged[key]  = this._spies[key];
-        for (let key in spies)
-            spiesMerged[key]  = spies[key];
-
+        const spiesDescriptorMerged = {};
+        const currentSpiesDescriptor = this.Object.getOwnPropertyDescriptors(this._spies);
+        const newSpiesDescriptor = this.Object.getOwnPropertyDescriptors(spies);
+        for (let key in currentSpiesDescriptor)
+            spiesDescriptorMerged[key]  = currentSpiesDescriptor[key];
+        for (let key in newSpiesDescriptor)
+            spiesDescriptorMerged[key]  = newSpiesDescriptor[key];
+        const spiesMerged = this.Object.defineProperties({},spiesDescriptorMerged);
         return new (this.MockedClassFactory)(this.spyFactory ,this.target , this.props , spiesMerged)
     }
     _isClassInherit(classDescriptor , classEntity){
@@ -168,7 +170,9 @@ class MockedClassFactory{
         const targetFields = this.Object.getOwnPropertyDescriptors(target.prototype);
         const spiedProto = this._replaceWithSpies(targetFields);
         this.props.forEach((prop)=>{
-            spiedProto[prop] = targetFields[prop]
+            if (targetFields.hasOwnProperty(prop))
+                spiedProto[prop] = targetFields[prop];
+            else throw new Error(`Method ${prop} doesn't exists on this class`)
         });
         return spiedProto;
     }

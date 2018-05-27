@@ -431,6 +431,9 @@ describe('MockedClassFactory' , ()=>{
         beforeEach(()=>{
             MockedClassFactorySpy = chai.spy(()=>4);
             mockedClassFactory = {
+                get Object(){
+                    return Object;
+                },
                 spies(){
                     return MockedClassFactory.prototype.spies.apply(this, arguments);
                 },
