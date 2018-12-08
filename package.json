@@ -1,6 +1,6 @@
 {
   "name": "unit-test-class",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Automatically mock javascript classes to make unit tests faster and better",
   "main": "src/index.js",
   "types": "src/index.d.ts",
